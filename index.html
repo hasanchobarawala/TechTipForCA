@@ -4,221 +4,263 @@
 <meta charset="UTF-8">
 <title>Tech Tips for CA</title>
 
+<!-- 🔥 GOOGLE ANALYTICS -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VBNG7VJS98"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-VBNG7VJS98');
+</script>
+
 <style>
-body {
-    font-family: Arial;
-    background: #f2f2f2;
-    margin: 0;
-}
+body{font-family:'Segoe UI',sans-serif;margin:0;background:#eef2f3;}
+.header{background:#0f7c3a;color:#fff;padding:16px;text-align:center;}
+.header h1{margin:0;font-size:22px}
+.brand{font-size:13px;margin-top:4px}
+.search-box{text-align:center;padding:12px}
+.search-box input{width:320px;max-width:90%;padding:10px;border-radius:8px;border:1px solid #ccc}
+.filters{text-align:center;margin:10px}
+.filters button{margin:5px;padding:7px 14px;border:none;border-radius:20px;background:#ddd;cursor:pointer}
+.filters button.active{background:#16a34a;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;padding:20px}
+.card{background:#fff;padding:10px;border-radius:12px;position:relative;box-shadow:0 6px 16px rgba(0,0,0,.08)}
+.card img{width:100%;height:260px;object-fit:cover;border-radius:10px;cursor:pointer}
+.title{font-size:14px;margin-top:8px;font-weight:bold}
+.share-btn{position:absolute;top:10px;right:10px;background:#25D366;color:#fff;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer}
 
-/* HEADER */
-.header {
-    background: #0f7c3a;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    font-size: 24px;
-}
+/* POPUP VIEWER */
+.popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000;justify-content:center;align-items:center;overflow:hidden;z-index:999}
+.popup-inner{position:relative;cursor:grab}
+#popupImg{max-width:90vw;max-height:90vh;transition:transform .2s ease}
 
-/* SEARCH */
-.search-box {
-    text-align: center;
-    padding: 10px;
-}
-
-.search-box input {
-    width: 300px;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 15px;
-    padding: 20px;
-}
-
-/* CARD */
-.card {
-    background: white;
-    border-radius: 12px;
-    padding: 10px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card img {
-    width: 100%;
-    height: 260px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.title {
-    font-size: 14px;
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-/* POPUP */
-.popup {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    justify-content: center;
-    align-items: center;
-}
-
-.popup img {
-    max-width: 90%;
-    max-height: 90%;
-}
+/* NAV + ZOOM */
+.nav{position:absolute;top:50%;transform:translateY(-50%);background:#fff;border:none;padding:10px;cursor:pointer;border-radius:6px}
+.prev{left:10px}.next{right:10px}
+.zoom{position:absolute;top:10px;background:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer}
+.zin{right:60px}.zout{right:10px}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-    TECH TIPS FOR CA 💡
+  <h1>TECH TIPS FOR CA 💡</h1>
+  <div class="brand">By Hasan Chobarawala | Mob: 9926652153</div>
+  <div class="brand">Branch In-Charge | ICAI Ujjain Branch</div>
 </div>
 
 <div class="search-box">
-    <input type="text" id="search" placeholder="Search tips...">
+  <input id="search" placeholder="Search tips...">
 </div>
 
+<div class="filters" id="filters"></div>
 <div class="grid" id="grid"></div>
 
+<!-- POPUP -->
 <div class="popup" id="popup" onclick="closePopup()">
+  <div class="popup-inner" id="inner">
     <img id="popupImg">
+    <button class="nav prev" onclick="prevTip(event)">⬅</button>
+    <button class="nav next" onclick="nextTip(event)">➡</button>
+    <button class="zoom zin" onclick="zoomIn(event)">+</button>
+    <button class="zoom zout" onclick="zoomOut(event)">−</button>
+  </div>
 </div>
 
 <script>
-
-/* ===== FULL TIP LIST ===== */
-let tips = [
-{no:1, title:"EXCEL: Live Screenshot"},
-{no:2, title:"EXCEL: Row Differences"},
-{no:3, title:"EXCEL: Data From Image"},
-{no:4, title:"EXCEL: Hide Zero Value"},
-{no:5, title:"MS WORD: Compare Documents"},
-{no:6, title:"MS WORD: Restrict Editing"},
-{no:7, title:"MS EXCEL: Compare Files"},
-{no:8, title:"MS EXCEL: Document Inspector"},
-{no:9, title:"MS WORD: Auto Date"},
-{no:10, title:"MS WORD: Paste Without Formatting"},
-{no:11, title:"MS WORD: Split View"},
-{no:12, title:"MS WORD: Quick Parts"},
-{no:13, title:"MS POWERPOINT: Compress Images"},
-{no:14, title:"MS POWERPOINT: PPT to Video"},
-{no:15, title:"MS POWERPOINT: Lock Background"},
-{no:16, title:"CHATGPT: Act As Prompt"},
-{no:17, title:"COMPUTER: Reopen Tab"},
-{no:18, title:"COMPUTER: Snap Windows"},
-{no:19, title:"COMPUTER: Night Light"},
-{no:20, title:"COMPUTER: Copy File Path"},
-{no:21, title:"UTILITY: Recent Files"},
-{no:22, title:"UTILITY: Preview File"},
-{no:23, title:"UTILITY: File Search"},
-{no:24, title:"MS EXCEL: UNIQUE"},
-{no:25, title:"MS EXCEL: N Function"},
-{no:26, title:"TOOL: Screen Recording"},
-{no:27, title:"TOOL: Character Map"},
-{no:28, title:"GOOGLE: Site Search"},
-{no:29, title:"GOOGLE: Task Manager"},
-{no:30, title:"CALCULATOR: History"},
-{no:31, title:"WHATSAPP: Message Without Save"},
-{no:32, title:"WHATSAPP: Search by Date"},
-{no:33, title:"WHATSAPP: Send Without Compression"},
-{no:34, title:"WHATSAPP: Custom Notification"},
-{no:35, title:"WHATSAPP: Export Chat"},
-{no:36, title:"PDF: Rotate"},
-{no:37, title:"PDF: Highlight"},
-{no:38, title:"PDF: Extract Pages"},
-{no:39, title:"PDF: Remove Pages"},
-{no:40, title:"PDF: Tabs View"},
-{no:41, title:"PDF: Go to Page"},
-{no:42, title:"MS EXCEL: Show Formulas"},
-{no:43, title:"AI: Better Prompts"},
-{no:44, title:"AI: Reasoning"},
-{no:45, title:"AI: 3 Options"},
-{no:46, title:"AI: Role + Task"},
-{no:47, title:"AI: Ask Questions"},
-{no:48, title:"AI: Constraints"},
-{no:49, title:"AI: Checklist"},
-{no:50, title:"AI: Validation"},
-{no:51, title:"AI: Generate Prompt"},
-{no:52, title:"PASSWORD: Basics"},
-{no:53, title:"PASSWORD: Advanced"},
-{no:54, title:"PASSWORD: Protection"},
-{no:55, title:"PASSWORD: Safety"},
-{no:56, title:"PASSWORD: Banking"},
-{no:57, title:"GOOGLE: Cache"},
-{no:58, title:"GOOGLE: File Search"},
-{no:59, title:"GOOGLE: Exact Phrase"},
-{no:60, title:"GOOGLE: Recent Filter"},
-{no:61, title:"GOOGLE: Exclude Words"},
-{no:62, title:"GOOGLE: Range Search"},
-{no:63, title:"GOOGLE SHEETS: Version History"},
-{no:64, title:"GOOGLE SHEETS: Email Notify"},
-{no:65, title:"GOOGLE SHEETS: Currency"},
-{no:66, title:"GOOGLE SHEETS: IMPORTHTML"},
-{no:67, title:"GOOGLE SHEETS: IMPORTRANGE"},
-{no:68, title:"GOOGLE SHEETS: Translate"},
-{no:69, title:"GOOGLE SHEETS: Checkboxes"}
+/* ===== DATA (1–69 TITLES + CATEGORY) ===== */
+const tips = [
+{no:1,title:"EXCEL: Live Screenshot",cat:"Excel"},
+{no:2,title:"EXCEL: Row Differences",cat:"Excel"},
+{no:3,title:"EXCEL: Data From Image",cat:"Excel"},
+{no:4,title:"EXCEL: Hide Zero Value",cat:"Excel"},
+{no:5,title:"WORD: Compare Documents",cat:"Word"},
+{no:6,title:"WORD: Restrict Editing",cat:"Word"},
+{no:7,title:"EXCEL: Compare Files",cat:"Excel"},
+{no:8,title:"EXCEL: Document Inspector",cat:"Excel"},
+{no:9,title:"WORD: Auto Date",cat:"Word"},
+{no:10,title:"WORD: Paste Without Formatting",cat:"Word"},
+{no:11,title:"WORD: Split View",cat:"Word"},
+{no:12,title:"WORD: Quick Parts",cat:"Word"},
+{no:13,title:"POWERPOINT: Compress Images",cat:"PowerPoint"},
+{no:14,title:"POWERPOINT: PPT to Video",cat:"PowerPoint"},
+{no:15,title:"POWERPOINT: Lock Background",cat:"PowerPoint"},
+{no:16,title:"AI: Act As Prompt",cat:"AI"},
+{no:17,title:"COMPUTER: Reopen Tab",cat:"Computer"},
+{no:18,title:"COMPUTER: Snap Windows",cat:"Computer"},
+{no:19,title:"COMPUTER: Night Light",cat:"Computer"},
+{no:20,title:"COMPUTER: Copy File Path",cat:"Computer"},
+{no:21,title:"UTILITY: Recent Files",cat:"Utility"},
+{no:22,title:"UTILITY: Preview File",cat:"Utility"},
+{no:23,title:"UTILITY: File Search",cat:"Utility"},
+{no:24,title:"EXCEL: UNIQUE Function",cat:"Excel"},
+{no:25,title:"EXCEL: N Function",cat:"Excel"},
+{no:26,title:"UTILITY: Screen Recording",cat:"Utility"},
+{no:27,title:"UTILITY: Character Map",cat:"Utility"},
+{no:28,title:"GOOGLE: Site Search",cat:"Google"},
+{no:29,title:"GOOGLE: Task Manager",cat:"Google"},
+{no:30,title:"UTILITY: Calculator History",cat:"Utility"},
+{no:31,title:"WHATSAPP: Message Without Save",cat:"WhatsApp"},
+{no:32,title:"WHATSAPP: Search by Date",cat:"WhatsApp"},
+{no:33,title:"WHATSAPP: Send Without Compression",cat:"WhatsApp"},
+{no:34,title:"WHATSAPP: Custom Notification",cat:"WhatsApp"},
+{no:35,title:"WHATSAPP: Export Chat",cat:"WhatsApp"},
+{no:36,title:"PDF: Rotate Pages",cat:"PDF"},
+{no:37,title:"PDF: Highlight Text",cat:"PDF"},
+{no:38,title:"PDF: Extract Pages",cat:"PDF"},
+{no:39,title:"PDF: Remove Pages",cat:"PDF"},
+{no:40,title:"PDF: Tabs View",cat:"PDF"},
+{no:41,title:"PDF: Go to Page",cat:"PDF"},
+{no:42,title:"EXCEL: Show Formulas",cat:"Excel"},
+{no:43,title:"AI: Better Prompts",cat:"AI"},
+{no:44,title:"AI: Reasoning Mode",cat:"AI"},
+{no:45,title:"AI: 3 Options Prompt",cat:"AI"},
+{no:46,title:"AI: Role + Task Prompt",cat:"AI"},
+{no:47,title:"AI: Ask Before Answer",cat:"AI"},
+{no:48,title:"AI: Constraints Prompt",cat:"AI"},
+{no:49,title:"AI: Checklist Prompt",cat:"AI"},
+{no:50,title:"AI: Validation Prompt",cat:"AI"},
+{no:51,title:"AI: Generate Prompt",cat:"AI"},
+{no:52,title:"SECURITY: Password Basics",cat:"Security"},
+{no:53,title:"SECURITY: Advanced Password",cat:"Security"},
+{no:54,title:"SECURITY: Protection Tips",cat:"Security"},
+{no:55,title:"SECURITY: Safety Practices",cat:"Security"},
+{no:56,title:"SECURITY: Banking Safety",cat:"Security"},
+{no:57,title:"GOOGLE: Cache",cat:"Google"},
+{no:58,title:"GOOGLE: File Search",cat:"Google"},
+{no:59,title:"GOOGLE: Exact Phrase",cat:"Google"},
+{no:60,title:"GOOGLE: Recent Filter",cat:"Google"},
+{no:61,title:"GOOGLE: Exclude Words",cat:"Google"},
+{no:62,title:"GOOGLE: Range Search",cat:"Google"},
+{no:63,title:"GOOGLE SHEETS: Version History",cat:"Google Sheets"},
+{no:64,title:"GOOGLE SHEETS: Email Notify",cat:"Google Sheets"},
+{no:65,title:"GOOGLE SHEETS: Currency",cat:"Google Sheets"},
+{no:66,title:"GOOGLE SHEETS: IMPORTHTML",cat:"Google Sheets"},
+{no:67,title:"GOOGLE SHEETS: IMPORTRANGE",cat:"Google Sheets"},
+{no:68,title:"GOOGLE SHEETS: Translate",cat:"Google Sheets"},
+{no:69,title:"GOOGLE SHEETS: Checkboxes",cat:"Google Sheets"}
 ];
 
-/* LOAD */
-let grid = document.getElementById("grid");
-
-function loadTips(list){
-    grid.innerHTML = "";
-
-    list.forEach(tip=>{
-        let card = document.createElement("div");
-        card.className = "card";
-
-        card.innerHTML = `
-        <img src="Tip ${tip.no}.png" onclick="openPopup('Tip ${tip.no}.png')">
-        <div class="title">TIP ${tip.no} - ${tip.title}</div>
-        `;
-
-        grid.appendChild(card);
-    });
-}
-
-loadTips(tips);
-
-/* SEARCH */
-document.getElementById("search").addEventListener("keyup", function(){
-    let val = this.value.toLowerCase();
-
-    let filtered = tips.filter(t =>
-        ("tip " + t.no + " " + t.title).toLowerCase().includes(val)
-    );
-
-    loadTips(filtered);
+/* ===== FILTER BUTTONS ===== */
+const categories = ["All", ...new Set(tips.map(t=>t.cat))];
+const fdiv = document.getElementById("filters");
+categories.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c;
+  b.onclick=(e)=>setFilter(c,e);
+  if(c==="All") b.classList.add("active");
+  fdiv.appendChild(b);
 });
 
-/* POPUP */
-function openPopup(src){
-    document.getElementById("popup").style.display = "flex";
-    document.getElementById("popupImg").src = src;
+let currentCat="All";
+const grid=document.getElementById("grid");
+
+/* ===== LOAD GRID ===== */
+function load(){
+  grid.innerHTML="";
+  const s=document.getElementById("search").value.toLowerCase();
+
+  tips.forEach(t=>{
+    if((currentCat==="All"||t.cat===currentCat) &&
+       (t.title.toLowerCase().includes(s) || (`tip ${t.no}`).includes(s))){
+      const d=document.createElement("div");
+      d.className="card";
+      d.innerHTML=`
+        <button class="share-btn" onclick="shareTip(${t.no},event)">📤</button>
+        <img src="Tip ${t.no}.png" onclick="openPopup(${t.no})">
+        <div class="title">TIP ${t.no} - ${t.title}</div>`;
+      grid.appendChild(d);
+    }
+  });
+}
+load();
+
+/* FILTER */
+function setFilter(c,e){
+  currentCat=c;
+  document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
+  e.target.classList.add("active");
+  load();
+  gtag('event','category_filter',{category:c});
 }
 
-function closePopup(){
-    document.getElementById("popup").style.display = "none";
-}
+/* SEARCH */
+document.getElementById("search").addEventListener("keyup",()=>{
+  load();
+  gtag('event','search_used',{});
+});
 
+/* ===== VIEWER (ZOOM + PAN + NAV + SWIPE) ===== */
+let cur=1, zoom=1, x=0, y=0, drag=false, sx=0, sy=0;
+
+function openPopup(n){
+  cur=n;
+  document.getElementById("popup").style.display="flex";
+  setImg(); resetView();
+  gtag('event','tip_open',{tip_number:n});
+}
+function closePopup(){ document.getElementById("popup").style.display="none"; }
+
+function setImg(){ document.getElementById("popupImg").src=`Tip ${cur}.png`; }
+
+function nextTip(e){ e.stopPropagation(); cur = (cur<69)?cur+1:1; setImg(); resetView(); }
+function prevTip(e){ e.stopPropagation(); cur = (cur>1)?cur-1:69; setImg(); resetView(); }
+
+/* Keyboard */
+document.addEventListener("keydown",e=>{
+  if(document.getElementById("popup").style.display==="flex"){
+    if(e.key==="ArrowRight") nextTip(e);
+    if(e.key==="ArrowLeft")  prevTip(e);
+  }
+});
+
+/* Swipe (mobile) */
+let touchStartX=0;
+document.getElementById("popup").addEventListener("touchstart",e=>{
+  touchStartX=e.touches[0].clientX;
+});
+document.getElementById("popup").addEventListener("touchend",e=>{
+  const endX=e.changedTouches[0].clientX;
+  if(touchStartX-endX>50) nextTip(e);
+  if(endX-touchStartX>50) prevTip(e);
+});
+
+/* Zoom + Pan */
+function resetView(){ zoom=1; x=0; y=0; apply(); }
+function apply(){ popupImg.style.transform=`translate(${x}px,${y}px) scale(${zoom})`; }
+
+function zoomIn(e){ e.stopPropagation(); zoom+=0.2; apply(); }
+function zoomOut(e){ e.stopPropagation(); zoom=Math.max(1,zoom-0.2); apply(); }
+
+popupImg.onwheel = e=>{
+  e.preventDefault();
+  zoom += (e.deltaY<0?0.1:-0.1);
+  if(zoom<1) zoom=1;
+  apply();
+};
+popupImg.ondblclick = ()=>{
+  zoom = (zoom===1?2:1);
+  x=0; y=0; apply();
+};
+
+/* Pan (drag) */
+const inner = document.getElementById("inner");
+inner.onmousedown = e=>{
+  drag=true; sx=e.clientX-x; sy=e.clientY-y;
+};
+document.onmousemove = e=>{
+  if(drag){ x=e.clientX-sx; y=e.clientY-sy; apply(); }
+};
+document.onmouseup = ()=> drag=false;
+
+/* SHARE */
+function shareTip(n,e){
+  e.stopPropagation();
+  const url = location.href;
+  window.open(`https://wa.me/?text=Check Tip ${n}%0A${url}`);
+  gtag('event','tip_share',{tip_number:n});
+}
 </script>
 
 </body>
