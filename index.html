@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tech Tips for CA</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f2f2f2;
+    margin: 0;
+}
+
+/* HEADER */
+.header {
+    background: #0f7c3a;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 24px;
+}
+
+/* SEARCH */
+.search-box {
+    text-align: center;
+    padding: 10px;
+}
+
+.search-box input {
+    width: 300px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.title {
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* POPUP */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup img {
+    max-width: 90%;
+    max-height: 90%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    TECH TIPS FOR CA 💡
+</div>
+
+<div class="search-box">
+    <input type="text" id="search" placeholder="Search tips...">
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="popup" id="popup" onclick="closePopup()">
+    <img id="popupImg">
+</div>
+
+<script>
+
+/* ===== FULL TIP LIST ===== */
+let tips = [
+{no:1, title:"EXCEL: Live Screenshot"},
+{no:2, title:"EXCEL: Row Differences"},
+{no:3, title:"EXCEL: Data From Image"},
+{no:4, title:"EXCEL: Hide Zero Value"},
+{no:5, title:"MS WORD: Compare Documents"},
+{no:6, title:"MS WORD: Restrict Editing"},
+{no:7, title:"MS EXCEL: Compare Files"},
+{no:8, title:"MS EXCEL: Document Inspector"},
+{no:9, title:"MS WORD: Auto Date"},
+{no:10, title:"MS WORD: Paste Without Formatting"},
+{no:11, title:"MS WORD: Split View"},
+{no:12, title:"MS WORD: Quick Parts"},
+{no:13, title:"MS POWERPOINT: Compress Images"},
+{no:14, title:"MS POWERPOINT: PPT to Video"},
+{no:15, title:"MS POWERPOINT: Lock Background"},
+{no:16, title:"CHATGPT: Act As Prompt"},
+{no:17, title:"COMPUTER: Reopen Tab"},
+{no:18, title:"COMPUTER: Snap Windows"},
+{no:19, title:"COMPUTER: Night Light"},
+{no:20, title:"COMPUTER: Copy File Path"},
+{no:21, title:"UTILITY: Recent Files"},
+{no:22, title:"UTILITY: Preview File"},
+{no:23, title:"UTILITY: File Search"},
+{no:24, title:"MS EXCEL: UNIQUE"},
+{no:25, title:"MS EXCEL: N Function"},
+{no:26, title:"TOOL: Screen Recording"},
+{no:27, title:"TOOL: Character Map"},
+{no:28, title:"GOOGLE: Site Search"},
+{no:29, title:"GOOGLE: Task Manager"},
+{no:30, title:"CALCULATOR: History"},
+{no:31, title:"WHATSAPP: Message Without Save"},
+{no:32, title:"WHATSAPP: Search by Date"},
+{no:33, title:"WHATSAPP: Send Without Compression"},
+{no:34, title:"WHATSAPP: Custom Notification"},
+{no:35, title:"WHATSAPP: Export Chat"},
+{no:36, title:"PDF: Rotate"},
+{no:37, title:"PDF: Highlight"},
+{no:38, title:"PDF: Extract Pages"},
+{no:39, title:"PDF: Remove Pages"},
+{no:40, title:"PDF: Tabs View"},
+{no:41, title:"PDF: Go to Page"},
+{no:42, title:"MS EXCEL: Show Formulas"},
+{no:43, title:"AI: Better Prompts"},
+{no:44, title:"AI: Reasoning"},
+{no:45, title:"AI: 3 Options"},
+{no:46, title:"AI: Role + Task"},
+{no:47, title:"AI: Ask Questions"},
+{no:48, title:"AI: Constraints"},
+{no:49, title:"AI: Checklist"},
+{no:50, title:"AI: Validation"},
+{no:51, title:"AI: Generate Prompt"},
+{no:52, title:"PASSWORD: Basics"},
+{no:53, title:"PASSWORD: Advanced"},
+{no:54, title:"PASSWORD: Protection"},
+{no:55, title:"PASSWORD: Safety"},
+{no:56, title:"PASSWORD: Banking"},
+{no:57, title:"GOOGLE: Cache"},
+{no:58, title:"GOOGLE: File Search"},
+{no:59, title:"GOOGLE: Exact Phrase"},
+{no:60, title:"GOOGLE: Recent Filter"},
+{no:61, title:"GOOGLE: Exclude Words"},
+{no:62, title:"GOOGLE: Range Search"},
+{no:63, title:"GOOGLE SHEETS: Version History"},
+{no:64, title:"GOOGLE SHEETS: Email Notify"},
+{no:65, title:"GOOGLE SHEETS: Currency"},
+{no:66, title:"GOOGLE SHEETS: IMPORTHTML"},
+{no:67, title:"GOOGLE SHEETS: IMPORTRANGE"},
+{no:68, title:"GOOGLE SHEETS: Translate"},
+{no:69, title:"GOOGLE SHEETS: Checkboxes"}
+];
+
+/* LOAD */
+let grid = document.getElementById("grid");
+
+function loadTips(list){
+    grid.innerHTML = "";
+
+    list.forEach(tip=>{
+        let card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+        <img src="Tip ${tip.no}.png" onclick="openPopup('Tip ${tip.no}.png')">
+        <div class="title">TIP ${tip.no} - ${tip.title}</div>
+        `;
+
+        grid.appendChild(card);
+    });
+}
+
+loadTips(tips);
+
+/* SEARCH */
+document.getElementById("search").addEventListener("keyup", function(){
+    let val = this.value.toLowerCase();
+
+    let filtered = tips.filter(t =>
+        ("tip " + t.no + " " + t.title).toLowerCase().includes(val)
+    );
+
+    loadTips(filtered);
+});
+
+/* POPUP */
+function openPopup(src){
+    document.getElementById("popup").style.display = "flex";
+    document.getElementById("popupImg").src = src;
+}
+
+function closePopup(){
+    document.getElementById("popup").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
