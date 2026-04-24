@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tech Tips for CA</title>
+
+<!-- GOOGLE ANALYTICS -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VBNG7VJS98"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-VBNG7VJS98');
+</script>
+
+<style>
+body{font-family:'Segoe UI';margin:0;background:#eef2f3;}
+.header{background:#0f7c3a;color:#fff;padding:15px;text-align:center;}
+.brand{font-size:13px;}
+.search-box{text-align:center;padding:10px;}
+.search-box input{padding:8px;width:300px;border-radius:6px;}
+.filters{text-align:center;margin:10px;}
+.filters button{margin:5px;padding:6px 12px;border:none;border-radius:15px;background:#ddd;cursor:pointer;}
+.filters button.active{background:#16a34a;color:white;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:15px;padding:20px;}
+.card{background:#fff;padding:10px;border-radius:10px;position:relative;}
+.card img{width:100%;height:250px;object-fit:cover;border-radius:8px;cursor:pointer;}
+.title{font-size:13px;margin-top:8px;font-weight:bold;}
+.share-btn{position:absolute;top:10px;right:10px;background:#25D366;color:#fff;border:none;border-radius:50%;width:30px;height:30px;}
+
+.popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000;justify-content:center;align-items:center;}
+.popup-inner{position:relative;cursor:grab;}
+#popupImg{max-width:90vw;max-height:90vh;transition:transform .2s;}
+
+.nav{position:absolute;top:50%;transform:translateY(-50%);background:#fff;border:none;padding:10px;cursor:pointer;}
+.prev{left:10px;}
+.next{right:10px;}
+.zoom{position:absolute;top:10px;background:#fff;border:none;padding:5px;}
+.zin{right:60px;}
+.zout{right:10px;}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h2>TECH TIPS FOR CA 💡</h2>
+<div class="brand">By Hasan Chobarawala | Mob: 9926652153</div>
+<div class="brand">Branch In-Charge | ICAI Ujjain Branch</div>
+</div>
+
+<div class="search-box">
+<input id="search" placeholder="Search tips...">
+</div>
+
+<div class="filters" id="filters"></div>
+<div class="grid" id="grid"></div>
+
+<div class="popup" id="popup" onclick="closePopup()">
+<div class="popup-inner" id="inner">
+
+<img id="popupImg">
+
+<button class="nav prev" onclick="prevTip(event)">⬅</button>
+<button class="nav next" onclick="nextTip(event)">➡</button>
+
+<button class="zoom zin" onclick="zoomIn(event)">+</button>
+<button class="zoom zout" onclick="zoomOut(event)">−</button>
+
+</div>
+</div>
+
+<script>
+
+/* ===== AUTO LOAD FROM GOOGLE SHEET ===== */
+let tips = [];
+
+fetch("https://opensheet.elk.sh/1kD5aejShc94T6KTknDURvxqvgnoWNAvhO47Szphk22s/Sheet1")   // 🔥 यहाँ अपना JSON URL डालो
+.then(res => res.json())
+.then(data => {
+
+  tips = data.map(row => ({
+    no: parseInt(row["Tip No"]),
+    title: row["Title"],
+    cat: row["Category"],
+    img: row["Image"]
+  }));
+
+  init();
+
+});
+
+/* ===== INIT ===== */
+function init(){
+  createFilters();
+  load();
+}
+
+/* ===== FILTER BUTTONS ===== */
+function createFilters(){
+  const cats=["All",...new Set(tips.map(t=>t.cat))];
+  const fdiv=document.getElementById("filters");
+  fdiv.innerHTML="";
+
+  cats.forEach(c=>{
+    let b=document.createElement("button");
+    b.innerText=c;
+    b.onclick=(e)=>filter(c,e);
+    if(c==="All")b.classList.add("active");
+    fdiv.appendChild(b);
+  });
+}
+
+let currentCat="All";
+let grid=document.getElementById("grid");
+
+/* ===== LOAD ===== */
+function load(){
+grid.innerHTML="";
+let s=document.getElementById("search").value.toLowerCase();
+
+tips.forEach(t=>{
+if((currentCat==="All"||t.cat===currentCat)&&
+(t.title.toLowerCase().includes(s)||("tip "+t.no).includes(s))){
+
+let d=document.createElement("div");
+d.className="card";
+
+d.innerHTML=`
+<button class="share-btn" onclick="share(${t.no},event)">📤</button>
+<img src="${t.img}" onclick="openPopup(${t.no})">
+<div class="title">TIP ${t.no} - ${t.title}</div>
+`;
+
+grid.appendChild(d);
+}
+});
+}
+
+/* FILTER */
+function filter(c,e){
+currentCat=c;
+document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
+e.target.classList.add("active");
+load();
+}
+
+/* SEARCH */
+document.getElementById("search").addEventListener("keyup",load);
+
+/* ===== VIEWER ===== */
+let cur=1,zoom=1,x=0,y=0,drag=false,sx,sy;
+
+function openPopup(n){
+cur=n;
+document.getElementById("popup").style.display="flex";
+updateImg();
+reset();
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+function updateImg(){
+let tip=tips.find(t=>t.no==cur);
+document.getElementById("popupImg").src=tip.img;
+}
+
+function nextTip(e){
+e.stopPropagation();
+cur++;
+if(cur>tips.length)cur=1;
+updateImg();reset();
+}
+
+function prevTip(e){
+e.stopPropagation();
+cur--;
+if(cur<1)cur=tips.length;
+updateImg();reset();
+}
+
+/* ZOOM + PAN */
+function reset(){zoom=1;x=0;y=0;update();}
+function update(){popupImg.style.transform=`translate(${x}px,${y}px) scale(${zoom})`;}
+
+function zoomIn(e){e.stopPropagation();zoom+=0.2;update();}
+function zoomOut(e){e.stopPropagation();zoom-=0.2;if(zoom<1)zoom=1;update();}
+
+popupImg.onwheel=e=>{
+e.preventDefault();
+zoom+=e.deltaY<0?0.1:-0.1;
+if(zoom<1)zoom=1;
+update();
+};
+
+inner.onmousedown=e=>{
+drag=true;
+sx=e.clientX-x;
+sy=e.clientY-y;
+};
+
+document.onmousemove=e=>{
+if(drag){x=e.clientX-sx;y=e.clientY-sy;update();}
+};
+
+document.onmouseup=()=>drag=false;
+
+/* SHARE */
+function share(n,e){
+e.stopPropagation();
+window.open(`https://wa.me/?text=Check Tip ${n}`);
+}
+
+</script>
+
+</body>
+</html>
