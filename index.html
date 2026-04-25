@@ -26,16 +26,54 @@ body{font-family:'Segoe UI';margin:0;background:#eef2f3;}
 .card{background:#fff;padding:10px;border-radius:10px;position:relative;}
 .card img{width:100%;height:250px;object-fit:cover;border-radius:8px;cursor:pointer;}
 .title{font-size:13px;margin-top:8px;font-weight:bold;}
-.share-btn{position:absolute;top:10px;right:10px;background:#25D366;color:#fff;border:none;border-radius:50%;width:30px;height:30px;}
+.nav{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:#16a34a;
+color:#fff;
+border:none;
+padding:15px;
+font-size:20px;
+border-radius:50%;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,0.3);
+opacity:0.9;
+}
 
+.nav:hover{
+opacity:1;
+background:#15803d;
+}
+
+.prev{left:20px;}
+.next{right:20px;}
+
+.zoom{
+position:absolute;
+top:15px;
+background:#2563eb;
+color:#fff;
+border:none;
+padding:10px;
+font-size:18px;
+border-radius:50%;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+
+.zoom:hover{
+background:#1d4ed8;
+}
+
+.zin{right:70px;}
+.zout{right:20px;}
 .popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000;justify-content:center;align-items:center;}
 .popup-inner{position:relative;cursor:grab;}
 #popupImg{max-width:90vw;max-height:90vh;transition:transform .2s;}
 
-.nav{position:absolute;top:50%;transform:translateY(-50%);background:#fff;border:none;padding:10px;cursor:pointer;}
 .prev{left:10px;}
 .next{right:10px;}
-.zoom{position:absolute;top:10px;background:#fff;border:none;padding:5px;}
 .zin{right:60px;}
 .zout{right:10px;}
 </style>
@@ -127,7 +165,6 @@ let d=document.createElement("div");
 d.className="card";
 
 d.innerHTML=`
-<button class="share-btn" onclick="share(${t.no},event)">📤</button>
 <img src="${t.img}" onclick="openPopup(${t.no})">
 <div class="title">TIP ${t.no} - ${t.title}</div>
 `;
@@ -208,10 +245,6 @@ if(drag){x=e.clientX-sx;y=e.clientY-sy;update();}
 document.onmouseup=()=>drag=false;
 
 /* SHARE */
-function share(n,e){
-e.stopPropagation();
-window.open(`https://wa.me/?text=Check Tip ${n}`);
-}
 
 </script>
 
