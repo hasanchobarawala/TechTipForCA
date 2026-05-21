@@ -79,11 +79,6 @@ font-size:15px;
 transition:.2s;
 }
 
-.filters button:hover{
-background:#9ca3af;
-color:white;
-}
-
 .filters button.active{
 background:#16a34a;
 color:white;
@@ -125,23 +120,21 @@ margin-top:10px;
 font-size:15px;
 font-weight:700;
 text-align:center;
+line-height:1.4;
 }
 
-/* ================= VIEWER ================= */
+/* ================= POPUP ================= */
 
 .popup{
 display:none;
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+inset:0;
 background:rgba(0,0,0,0.96);
 z-index:9999;
 overflow:hidden;
 }
 
-/* IMAGE CONTAINER */
+/* ================= IMAGE AREA ================= */
 
 .popup-inner{
 width:100%;
@@ -154,14 +147,12 @@ padding:80px 20px 40px;
 cursor:grab;
 }
 
-/* IMAGE */
-
 #popupImg{
-max-width:100%;
+max-width:95%;
 height:auto;
+border-radius:12px;
 transition:transform .15s linear;
 transform-origin:center center;
-border-radius:12px;
 }
 
 /* ================= FIXED BUTTONS ================= */
@@ -301,6 +292,10 @@ right:10px;
 padding:70px 8px 30px;
 }
 
+#popupImg{
+max-width:100%;
+}
+
 }
 
 </style>
@@ -368,7 +363,7 @@ WORK SMARTER, NOT HARDER!
 
 <script>
 
-/* ================= DATA ================= */
+/* ================= CATEGORY + TITLE DATA ================= */
 
 const tips=[];
 
@@ -378,7 +373,7 @@ tips.push({
 
 no:i,
 
-title:`Time Saving Tech Tip ${i}`,
+title:getTitle(i),
 
 cat:getCategory(i),
 
@@ -388,16 +383,49 @@ img:`Tip ${i}.png`
 
 }
 
+/* ================= TITLES ================= */
+
+function getTitle(i){
+
+const titles={
+
+1:"AI Prompt Validation",
+2:"Smart Prompt Structure",
+3:"Deep Analysis Prompt",
+4:"Multiple AI Answers",
+5:"Calculator Mini Mode",
+6:"Calculator History",
+7:"Paste Equation",
+8:"Converter Shortcuts",
+9:"Date Calculator",
+10:"Canva Resize",
+11:"Canva Style Copy",
+12:"Canva Lock Elements",
+13:"Split Screen",
+14:"Night Light",
+15:"Copy File Path",
+16:"Performance Mode",
+17:"Disable Startup Apps",
+18:"PowerToys",
+19:"Extract Text",
+20:"Live Captions"
+
+};
+
+return titles[i] || "Time Saving Tech Tip";
+
+}
+
 /* ================= CATEGORY ================= */
 
 function getCategory(i){
 
-if(i<=15) return "AI";
-if(i<=30) return "Computer";
-if(i<=50) return "Excel";
-if(i<=70) return "Google";
-if(i<=90) return "Google Sheets";
-if(i<=105) return "Google Docs";
+if(i<=4) return "AI";
+if(i<=9) return "Calculator";
+if(i<=12) return "Canva";
+if(i<=20) return "Computer";
+if(i<=40) return "Google";
+if(i<=80) return "Excel";
 
 return "Utility";
 
@@ -449,6 +477,8 @@ if(
 t.title.toLowerCase().includes(s)
 ||
 (`tip ${t.no}`).includes(s)
+||
+t.cat.toLowerCase().includes(s)
 )
 ){
 
@@ -462,7 +492,7 @@ card.innerHTML=`
 
 <div class="title">
 
-TIP ${t.no} - ${t.cat}
+TIP ${t.no} - ${t.title}
 
 </div>
 
@@ -611,7 +641,9 @@ function zoomIn(e){
 
 e.stopPropagation();
 
-zoom+=0.2;
+zoom+=0.15;
+
+if(zoom>5) zoom=5;
 
 applyTransform();
 
@@ -621,7 +653,7 @@ function zoomOut(e){
 
 e.stopPropagation();
 
-zoom-=0.2;
+zoom-=0.15;
 
 if(zoom<1) zoom=1;
 
@@ -629,7 +661,7 @@ applyTransform();
 
 }
 
-/* MOUSE WHEEL */
+/* SCROLL WHEEL ZOOM */
 
 img.onwheel=(e)=>{
 
@@ -639,6 +671,8 @@ zoom += e.deltaY<0 ? 0.1 : -0.1;
 
 if(zoom<1) zoom=1;
 
+if(zoom>5) zoom=5;
+
 applyTransform();
 
 };
@@ -646,6 +680,8 @@ applyTransform();
 /* ================= DRAG ================= */
 
 inner.onmousedown=(e)=>{
+
+if(zoom<=1) return;
 
 dragging=true;
 
