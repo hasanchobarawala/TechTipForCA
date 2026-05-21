@@ -75,27 +75,30 @@ body{
     width:100%;
     height:100%;
     background:rgba(0,0,0,0.96);
+    overflow:auto;
     justify-content:center;
-    align-items:center;
-    flex-direction:column;
+    align-items:flex-start;
+    padding:40px 0;
 }
 
 .viewer img{
     max-width:95%;
-    max-height:95%;
+    height:auto;
     border-radius:10px;
     transition:transform 0.3s ease;
     cursor:zoom-in;
+    margin:auto;
+    display:block;
 }
 
 .viewer img:hover{
-    transform:scale(1.4);
+    transform:scale(1.8);
 }
 
 .close{
-    position:absolute;
-    top:20px;
-    right:30px;
+    position:fixed;
+    top:15px;
+    right:25px;
     color:white;
     font-size:45px;
     cursor:pointer;
@@ -103,13 +106,13 @@ body{
 }
 
 .nav-btn{
-    position:absolute;
+    position:fixed;
     top:50%;
     transform:translateY(-50%);
-    background:rgba(255,255,255,0.2);
+    background:rgba(255,255,255,0.25);
     color:white;
     border:none;
-    font-size:45px;
+    font-size:42px;
     padding:14px 22px;
     cursor:pointer;
     border-radius:12px;
@@ -117,15 +120,15 @@ body{
 }
 
 .nav-btn:hover{
-    background:rgba(255,255,255,0.4);
+    background:rgba(255,255,255,0.45);
 }
 
 .prev{
-    left:20px;
+    left:15px;
 }
 
 .next{
-    right:20px;
+    right:15px;
 }
 
 .footer{
@@ -143,13 +146,17 @@ body{
         font-size:28px;
     }
 
+    .header p{
+        font-size:15px;
+    }
+
     .nav-btn{
-        font-size:30px;
-        padding:10px 15px;
+        font-size:28px;
+        padding:10px 14px;
     }
 
     .viewer img:hover{
-        transform:scale(1.1);
+        transform:scale(1.15);
     }
 
 }
@@ -160,9 +167,13 @@ body{
 <body>
 
 <div class="header">
+
     <h1>TIME SAVING TECH TIPS</h1>
-    <p><b>By: Hasan Chobarawala</b></p>
+
+    <p><b>By Hasan Chobarawala</b></p>
+
     <p><b>Mob: 9926652153</b></p>
+
 </div>
 
 <div class="gallery" id="gallery"></div>
@@ -180,7 +191,9 @@ body{
 </div>
 
 <div class="footer">
+
     WORK SMARTER, NOT HARDER!
+
 </div>
 
 <script>
@@ -196,12 +209,15 @@ for(let i=1;i<=120;i++){
     card.className="card";
 
     card.innerHTML=`
-    
+
         <img src="Tip ${i}.png" onclick="openViewer(${i})">
 
         <div class="tip-title">
+
             TIME SAVING TECH TIP - ${i}
+
         </div>
+
     `;
 
     gallery.appendChild(card);
@@ -214,11 +230,15 @@ function openViewer(num){
     document.getElementById("viewer").style.display="flex";
 
     document.getElementById("viewerImg").src=`Tip ${num}.png`;
+
+    document.body.style.overflow="hidden";
 }
 
 function closeViewer(){
 
     document.getElementById("viewer").style.display="none";
+
+    document.body.style.overflow="auto";
 }
 
 function nextImage(){
@@ -244,14 +264,17 @@ function prevImage(){
 document.addEventListener("keydown",function(e){
 
     if(e.key==="ArrowRight"){
+
         nextImage();
     }
 
     if(e.key==="ArrowLeft"){
+
         prevImage();
     }
 
     if(e.key==="Escape"){
+
         closeViewer();
     }
 
