@@ -1,749 +1,149 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Time Saving Tech Tips</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-font-family:'Segoe UI',sans-serif;
-background:#eef2f3;
-overflow-x:hidden;
-}
-
-/* ================= HEADER ================= */
-
-.header{
-background:#0f7c3a;
-color:white;
-text-align:center;
-padding:18px 12px;
-position:sticky;
-top:0;
-z-index:100;
-}
-
-.header h1{
-font-size:34px;
-margin-bottom:6px;
-}
-
-.header p{
-font-size:14px;
-margin-top:4px;
-}
-
-/* ================= SEARCH ================= */
-
-.search-box{
-text-align:center;
-padding:18px 10px 8px;
-}
-
-.search-box input{
-width:340px;
-max-width:92%;
-padding:12px 14px;
-font-size:16px;
-border-radius:10px;
-border:1px solid #aaa;
-outline:none;
-}
-
-/* ================= FILTERS ================= */
-
-.filters{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:10px;
-padding:10px;
-}
-
-.filters button{
-padding:8px 16px;
-border:none;
-border-radius:25px;
-background:#d1d5db;
-cursor:pointer;
-font-size:15px;
-transition:.2s;
-}
-
-.filters button.active{
-background:#16a34a;
-color:white;
-}
-
-/* ================= GRID ================= */
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-gap:20px;
-padding:20px;
-}
-
-/* ================= CARD ================= */
-
-.card{
-background:white;
-border-radius:14px;
-padding:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.15);
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-5px);
-}
-
-.card img{
-width:100%;
-height:auto;
-border-radius:10px;
-cursor:pointer;
-display:block;
-}
-
-.title{
-margin-top:10px;
-font-size:15px;
-font-weight:700;
-text-align:center;
-line-height:1.4;
-}
-
-/* ================= POPUP ================= */
-
-.popup{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.96);
-z-index:9999;
-overflow:hidden;
-}
-
-/* ================= IMAGE AREA ================= */
-
-.popup-inner{
-width:100%;
-height:100%;
-overflow:auto;
-display:flex;
-justify-content:center;
-align-items:flex-start;
-padding:80px 20px 40px;
-cursor:grab;
-}
-
-#popupImg{
-max-width:95%;
-height:auto;
-border-radius:12px;
-transition:transform .15s linear;
-transform-origin:center center;
-}
-
-/* ================= FIXED BUTTONS ================= */
-
-.nav,
-.zoom,
-.close{
-
-position:fixed;
-z-index:10000;
-border:none;
-cursor:pointer;
-color:white;
-box-shadow:0 4px 10px rgba(0,0,0,.35);
-
-}
-
-/* CLOSE */
-
-.close{
-top:18px;
-left:18px;
-width:52px;
-height:52px;
-border-radius:50%;
-background:#dc2626;
-font-size:24px;
-}
-
-/* NAV */
-
-.nav{
-top:50%;
-transform:translateY(-50%);
-width:58px;
-height:58px;
-border-radius:50%;
-background:#16a34a;
-font-size:28px;
-}
-
-.prev{
-left:15px;
-}
-
-.next{
-right:15px;
-}
-
-/* ZOOM */
-
-.zoom{
-top:18px;
-width:52px;
-height:52px;
-border-radius:50%;
-background:#2563eb;
-font-size:24px;
-}
-
-.zin{
-right:80px;
-}
-
-.zout{
-right:18px;
-}
-
-/* ================= FOOTER ================= */
-
-.footer{
-background:#0f7c3a;
-color:white;
-text-align:center;
-padding:16px;
-font-size:18px;
-margin-top:10px;
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:768px){
-
-.header h1{
-font-size:24px;
-}
-
-.header p{
-font-size:12px;
-}
-
-.grid{
-grid-template-columns:1fr;
-padding:12px;
-gap:16px;
-}
-
-.search-box input{
-width:95%;
-}
-
-.nav{
-width:48px;
-height:48px;
-font-size:22px;
-}
-
-.zoom{
-width:46px;
-height:46px;
-font-size:20px;
-}
-
-.close{
-width:46px;
-height:46px;
-font-size:20px;
-}
-
-.prev{
-left:8px;
-}
-
-.next{
-right:8px;
-}
-
-.zin{
-right:65px;
-}
-
-.zout{
-right:10px;
-}
-
-.popup-inner{
-padding:70px 8px 30px;
-}
-
-#popupImg{
-max-width:100%;
-}
-
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- ================= HEADER ================= -->
-
-<div class="header">
-
-<h1>TIME SAVING TECH TIPS 💡</h1>
-
-<p><b>By Hasan Chobarawala | Mob: 9926652153</b></p>
-
-<p>Branch In-Charge | ICAI Ujjain Branch</p>
-
-</div>
-
-<!-- ================= SEARCH ================= -->
-
-<div class="search-box">
-
-<input type="text" id="search" placeholder="Search tips...">
-
-</div>
-
-<!-- ================= FILTERS ================= -->
-
-<div class="filters" id="filters"></div>
-
-<!-- ================= GRID ================= -->
-
-<div class="grid" id="grid"></div>
-
-<!-- ================= POPUP ================= -->
-
-<div class="popup" id="popup">
-
-<button class="close" onclick="closePopup()">✖</button>
-
-<button class="nav prev" onclick="prevTip(event)">⬅</button>
-
-<button class="nav next" onclick="nextTip(event)">➡</button>
-
-<button class="zoom zin" onclick="zoomIn(event)">＋</button>
-
-<button class="zoom zout" onclick="zoomOut(event)">－</button>
-
-<div class="popup-inner" id="inner">
-
-<img id="popupImg">
-
-</div>
-
-</div>
-
-<!-- ================= FOOTER ================= -->
-
-<div class="footer">
-
-WORK SMARTER, NOT HARDER!
-
-</div>
-
-<script>
-
-/* ================= CATEGORY + TITLE DATA ================= */
-
-const tips=[];
-
-for(let i=1;i<=120;i++){
-
-tips.push({
-
-no:i,
-
-title:getTitle(i),
-
-cat:getCategory(i),
-
-img:`Tip ${i}.png`
-
-});
-
-}
-
-/* ================= TITLES ================= */
-
-function getTitle(i){
-
-const titles={
-
-1:"AI Prompt Validation",
-2:"Smart Prompt Structure",
-3:"Deep Analysis Prompt",
-4:"Multiple AI Answers",
-5:"Calculator Mini Mode",
-6:"Calculator History",
-7:"Paste Equation",
-8:"Converter Shortcuts",
-9:"Date Calculator",
-10:"Canva Resize",
-11:"Canva Style Copy",
-12:"Canva Lock Elements",
-13:"Split Screen",
-14:"Night Light",
-15:"Copy File Path",
-16:"Performance Mode",
-17:"Disable Startup Apps",
-18:"PowerToys",
-19:"Extract Text",
-20:"Live Captions"
-
-};
-
-return titles[i] || "Time Saving Tech Tip";
-
-}
-
-/* ================= CATEGORY ================= */
-
 function getCategory(i){
 
-if(i<=4) return "AI";
-if(i<=9) return "Calculator";
-if(i<=12) return "Canva";
-if(i<=20) return "Computer";
-if(i<=40) return "Google";
-if(i<=80) return "Excel";
-
-return "Utility";
-
-}
-
-/* ================= FILTERS ================= */
-
-function createFilters(){
-
-const cats=["All",...new Set(tips.map(t=>t.cat))];
-
-const fdiv=document.getElementById("filters");
-
-cats.forEach(c=>{
-
-const btn=document.createElement("button");
-
-btn.innerText=c;
-
-if(c==="All") btn.classList.add("active");
-
-btn.onclick=(e)=>filterTips(c,e);
-
-fdiv.appendChild(btn);
-
-});
-
-}
-
-let currentCat="All";
-
-const grid=document.getElementById("grid");
-
-/* ================= LOAD ================= */
-
-function loadTips(){
-
-grid.innerHTML="";
-
-const s=document.getElementById("search")
-.value.toLowerCase();
-
-tips.forEach(t=>{
-
-if(
-(currentCat==="All"||t.cat===currentCat)
-&&
-(
-t.title.toLowerCase().includes(s)
-||
-(`tip ${t.no}`).includes(s)
-||
-t.cat.toLowerCase().includes(s)
-)
-){
-
-const card=document.createElement("div");
-
-card.className="card";
-
-card.innerHTML=`
-
-<img src="${t.img}" onclick="openPopup(${t.no})">
-
-<div class="title">
-
-TIP ${t.no} - ${t.title}
-
-</div>
-
-`;
-
-grid.appendChild(card);
-
-}
-
-});
-
-}
-
-/* ================= FILTER ================= */
-
-function filterTips(cat,e){
-
-currentCat=cat;
-
-document.querySelectorAll(".filters button")
-.forEach(b=>b.classList.remove("active"));
-
-e.target.classList.add("active");
-
-loadTips();
-
-}
-
-/* ================= SEARCH ================= */
-
-document.getElementById("search")
-.addEventListener("keyup",loadTips);
-
-/* ================= INIT ================= */
-
-createFilters();
-
-loadTips();
-
-/* ================= POPUP ================= */
-
-let current=1;
-
-let zoom=1;
-
-let panX=0;
-
-let panY=0;
-
-let dragging=false;
-
-let startX,startY;
-
-const popup=document.getElementById("popup");
-
-const img=document.getElementById("popupImg");
-
-const inner=document.getElementById("inner");
-
-/* OPEN */
-
-function openPopup(n){
-
-current=n;
-
-popup.style.display="block";
-
-updateImage();
-
-resetZoom();
-
-}
-
-/* CLOSE */
-
-function closePopup(){
-
-popup.style.display="none";
-
-}
-
-/* UPDATE IMAGE */
-
-function updateImage(){
-
-img.src=`Tip ${current}.png`;
-
-}
-
-/* NEXT */
-
-function nextTip(e){
-
-e.stopPropagation();
-
-current++;
-
-if(current>120) current=1;
-
-updateImage();
-
-resetZoom();
-
-}
-
-/* PREV */
-
-function prevTip(e){
-
-e.stopPropagation();
-
-current--;
-
-if(current<1) current=120;
-
-updateImage();
-
-resetZoom();
-
-}
-
-/* ================= ZOOM ================= */
-
-function resetZoom(){
-
-zoom=1;
-
-panX=0;
-
-panY=0;
-
-applyTransform();
-
-}
-
-function applyTransform(){
-
-img.style.transform=
-`translate(${panX}px,${panY}px) scale(${zoom})`;
-
-}
-
-/* BUTTON ZOOM */
-
-function zoomIn(e){
-
-e.stopPropagation();
-
-zoom+=0.15;
-
-if(zoom>5) zoom=5;
-
-applyTransform();
-
-}
-
-function zoomOut(e){
-
-e.stopPropagation();
-
-zoom-=0.15;
-
-if(zoom<1) zoom=1;
-
-applyTransform();
-
-}
-
-/* SCROLL WHEEL ZOOM */
-
-img.onwheel=(e)=>{
-
-e.preventDefault();
-
-zoom += e.deltaY<0 ? 0.1 : -0.1;
-
-if(zoom<1) zoom=1;
-
-if(zoom>5) zoom=5;
-
-applyTransform();
+const map = {
+
+1:"AI -PROMPT",
+2:"AI -PROMPT",
+3:"AI -PROMPT",
+4:"AI -PROMPT",
+5:"AI -PROMPT",
+6:"AI -PROMPT",
+7:"AI -PROMPT",
+
+8:"CALCULATOR",
+9:"CALCULATOR",
+10:"CALCULATOR",
+11:"CALCULATOR",
+12:"CALCULATOR",
+
+13:"CANVA",
+
+14:"COMPUTER",
+15:"COMPUTER",
+16:"COMPUTER",
+17:"COMPUTER",
+18:"COMPUTER",
+19:"COMPUTER",
+20:"COMPUTER",
+
+21:"GOOGLE",
+22:"GOOGLE",
+23:"GOOGLE",
+24:"GOOGLE",
+25:"GOOGLE",
+26:"GOOGLE",
+27:"GOOGLE",
+
+28:"GOOGLE CHROME",
+29:"GOOGLE CHROME",
+30:"GOOGLE CHROME",
+
+31:"GOOGLE DOCS",
+32:"GOOGLE DOCS",
+
+33:"GOOGLE FORMS",
+34:"GOOGLE FORMS",
+35:"GOOGLE FORMS",
+
+36:"GOOGLE SHEETS",
+37:"GOOGLE SHEETS",
+38:"GOOGLE SHEETS",
+39:"GOOGLE SHEETS",
+40:"GOOGLE SHEETS",
+41:"GOOGLE SHEETS",
+42:"GOOGLE SHEETS",
+
+43:"MS EXCEL",
+44:"MS EXCEL",
+45:"MS EXCEL",
+46:"MS EXCEL",
+47:"MS EXCEL",
+48:"MS EXCEL",
+49:"MS EXCEL",
+50:"MS EXCEL",
+51:"MS EXCEL",
+52:"MS EXCEL",
+53:"MS EXCEL",
+54:"MS EXCEL",
+55:"MS EXCEL",
+56:"MS EXCEL",
+57:"MS EXCEL",
+58:"MS EXCEL",
+59:"MS EXCEL",
+60:"MS EXCEL",
+
+61:"MS POWERPOINT",
+62:"MS POWERPOINT",
+63:"MS POWERPOINT",
+64:"MS POWERPOINT",
+65:"MS POWERPOINT",
+66:"MS POWERPOINT",
+67:"MS POWERPOINT",
+
+68:"MS WORD",
+69:"MS WORD",
+70:"MS WORD",
+71:"MS WORD",
+72:"MS WORD",
+73:"MS WORD",
+74:"MS WORD",
+75:"MS WORD",
+76:"MS WORD",
+77:"MS WORD",
+78:"MS WORD",
+79:"MS WORD",
+80:"MS WORD",
+
+81:"MS WORD (Office 365)",
+82:"MS WORD (Office 365)",
+
+83:"PASSWORD SECURITY",
+84:"PASSWORD SECURITY",
+85:"PASSWORD SECURITY",
+86:"PASSWORD SECURITY",
+87:"PASSWORD SECURITY",
+
+88:"PDF",
+89:"PDF",
+90:"PDF",
+91:"PDF",
+92:"PDF",
+93:"PDF",
+
+94:"UTILITY",
+95:"UTILITY",
+96:"UTILITY",
+97:"UTILITY",
+98:"UTILITY",
+
+99:"WHATSAPP",
+100:"WHATSAPP",
+101:"WHATSAPP",
+102:"WHATSAPP",
+
+103:"WINDOWS 11",
+104:"WINDOWS 11",
+105:"WINDOWS 11",
+106:"WINDOWS 11",
+107:"WINDOWS 11",
+108:"WINDOWS 11",
+109:"WINDOWS 11",
+110:"WINDOWS 11",
+
+111:"GMAIL",
+112:"GMAIL",
+113:"GMAIL",
+114:"GMAIL",
+115:"GMAIL",
+
+116:"YOUTUBE",
+117:"YOUTUBE",
+118:"YOUTUBE",
+119:"YOUTUBE",
+120:"YOUTUBE"
 
 };
 
-/* ================= DRAG ================= */
-
-inner.onmousedown=(e)=>{
-
-if(zoom<=1) return;
-
-dragging=true;
-
-startX=e.clientX-panX;
-
-startY=e.clientY-panY;
-
-};
-
-document.onmousemove=(e)=>{
-
-if(dragging){
-
-panX=e.clientX-startX;
-
-panY=e.clientY-startY;
-
-applyTransform();
+return map[i] || "UTILITY";
 
 }
-
-};
-
-document.onmouseup=()=>dragging=false;
-
-/* ================= KEYBOARD ================= */
-
-document.addEventListener("keydown",(e)=>{
-
-if(e.key==="ArrowRight"){
-
-current++;
-
-if(current>120) current=1;
-
-updateImage();
-
-resetZoom();
-
-}
-
-if(e.key==="ArrowLeft"){
-
-current--;
-
-if(current<1) current=120;
-
-updateImage();
-
-resetZoom();
-
-}
-
-if(e.key==="Escape"){
-
-closePopup();
-
-}
-
-});
-
-</script>
-
-</body>
-</html>
