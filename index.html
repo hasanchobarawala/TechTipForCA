@@ -11,21 +11,19 @@
 body{
     margin:0;
     font-family:Arial,sans-serif;
-    background:#f1f5f9;
+    background:#e9ecef;
 }
 
 .header{
-    background:#0f172a;
+    background:#15803d;
     color:white;
-    padding:25px;
     text-align:center;
-    box-shadow:0 2px 10px rgba(0,0,0,0.2);
+    padding:25px 15px;
 }
 
 .header h1{
     margin:0;
     font-size:42px;
-    letter-spacing:1px;
 }
 
 .header p{
@@ -35,7 +33,7 @@ body{
 
 .gallery{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
     gap:20px;
     padding:20px;
 }
@@ -44,8 +42,7 @@ body{
     background:white;
     border-radius:14px;
     overflow:hidden;
-    box-shadow:0 4px 12px rgba(0,0,0,0.15);
-    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
     transition:0.3s;
 }
 
@@ -55,14 +52,15 @@ body{
 
 .card img{
     width:100%;
+    height:auto;
     display:block;
+    cursor:pointer;
 }
 
 .tip-title{
     padding:12px;
     text-align:center;
     font-weight:bold;
-    color:#111827;
     font-size:17px;
 }
 
@@ -70,26 +68,19 @@ body{
     display:none;
     position:fixed;
     inset:0;
+    background:rgba(0,0,0,0.95);
     z-index:999;
-    background:rgba(0,0,0,0.96);
     overflow:auto;
-    padding:40px;
-    box-sizing:border-box;
     text-align:center;
 }
 
 .viewer img{
     width:90%;
     max-width:1400px;
-    height:auto;
-    border-radius:12px;
-    cursor:zoom-in;
-    transition:transform 0.3s ease;
-    transform-origin:top center;
-}
-
-.viewer img:hover{
-    transform:scale(1.8);
+    margin-top:30px;
+    margin-bottom:30px;
+    border-radius:10px;
+    cursor:pointer;
 }
 
 .close{
@@ -109,15 +100,11 @@ body{
     background:rgba(255,255,255,0.25);
     color:white;
     border:none;
-    font-size:42px;
-    padding:14px 22px;
+    font-size:40px;
+    padding:12px 18px;
+    border-radius:10px;
     cursor:pointer;
-    border-radius:12px;
     z-index:1000;
-}
-
-.nav-btn:hover{
-    background:rgba(255,255,255,0.45);
 }
 
 .prev{
@@ -129,12 +116,11 @@ body{
 }
 
 .footer{
-    background:#0f172a;
+    background:#15803d;
     color:white;
     text-align:center;
-    padding:20px;
+    padding:18px;
     margin-top:20px;
-    font-size:18px;
 }
 
 @media(max-width:768px){
@@ -147,17 +133,12 @@ body{
         font-size:15px;
     }
 
-    .nav-btn{
-        font-size:28px;
-        padding:10px 14px;
+    .gallery{
+        grid-template-columns:1fr;
     }
 
     .viewer img{
         width:100%;
-    }
-
-    .viewer img:hover{
-        transform:scale(1.15);
     }
 
 }
@@ -169,11 +150,11 @@ body{
 
 <div class="header">
 
-    <h1>TIME SAVING TECH TIPS</h1>
+<h1>TIME SAVING TECH TIPS 💡</h1>
 
-    <p><b>By Hasan Chobarawala</b></p>
+<p><b>By Hasan Chobarawala | Mob: 9926652153</b></p>
 
-    <p><b>Mob: 9926652153</b></p>
+<p>Branch In-Charge | ICAI Ujjain Branch</p>
 
 </div>
 
@@ -181,27 +162,27 @@ body{
 
 <div class="viewer" id="viewer">
 
-    <span class="close" onclick="closeViewer()">&times;</span>
+<span class="close" onclick="closeViewer()">&times;</span>
 
-    <button class="nav-btn prev" onclick="prevImage()">❮</button>
+<button class="nav-btn prev" onclick="prevImage()">❮</button>
 
-    <img id="viewerImg">
+<img id="viewerImg">
 
-    <button class="nav-btn next" onclick="nextImage()">❯</button>
+<button class="nav-btn next" onclick="nextImage()">❯</button>
 
 </div>
 
 <div class="footer">
 
-    WORK SMARTER, NOT HARDER!
+WORK SMARTER, NOT HARDER!
 
 </div>
 
 <script>
 
-const gallery = document.getElementById("gallery");
+const gallery=document.getElementById("gallery");
 
-let currentImage = 1;
+let currentImage=1;
 
 for(let i=1;i<=120;i++){
 
@@ -211,13 +192,11 @@ for(let i=1;i<=120;i++){
 
     card.innerHTML=`
 
-        <img src="Tip ${i}.png" onclick="openViewer(${i})">
+    <img src="Tip ${i}.png" onerror="this.style.display='none'" onclick="openViewer(${i})">
 
-        <div class="tip-title">
-
-            TIME SAVING TECH TIP - ${i}
-
-        </div>
+    <div class="tip-title">
+    TIME SAVING TECH TIP - ${i}
+    </div>
 
     `;
 
@@ -260,20 +239,11 @@ function prevImage(){
 
 document.addEventListener("keydown",function(e){
 
-    if(e.key==="ArrowRight"){
+    if(e.key==="ArrowRight") nextImage();
 
-        nextImage();
-    }
+    if(e.key==="ArrowLeft") prevImage();
 
-    if(e.key==="ArrowLeft"){
-
-        prevImage();
-    }
-
-    if(e.key==="Escape"){
-
-        closeViewer();
-    }
+    if(e.key==="Escape") closeViewer();
 
 });
 
