@@ -10,6 +10,7 @@ body{
 font-family:'Segoe UI';
 margin:0;
 background:#eef2f3;
+overflow-x:hidden;
 }
 
 /* HEADER */
@@ -121,7 +122,7 @@ height:100%;
 background:rgba(0,0,0,0.96);
 justify-content:center;
 align-items:center;
-z-index:999;
+z-index:9999;
 overflow:auto;
 }
 
@@ -141,7 +142,7 @@ transition:transform .2s;
 cursor:grab;
 }
 
-/* NAVIGATION */
+/* FIXED BUTTONS */
 
 .nav{
 position:fixed;
@@ -155,7 +156,7 @@ font-size:26px;
 border-radius:50%;
 cursor:pointer;
 box-shadow:0 4px 10px rgba(0,0,0,0.3);
-z-index:1000;
+z-index:10000;
 }
 
 .prev{
@@ -166,7 +167,7 @@ left:15px;
 right:15px;
 }
 
-/* ZOOM BUTTONS */
+/* FIXED ZOOM BUTTONS */
 
 .zoom{
 position:fixed;
@@ -178,7 +179,7 @@ padding:10px 14px;
 font-size:22px;
 border-radius:50%;
 cursor:pointer;
-z-index:1000;
+z-index:10000;
 }
 
 .zin{
@@ -202,7 +203,7 @@ padding:10px 14px;
 font-size:22px;
 border-radius:50%;
 cursor:pointer;
-z-index:1000;
+z-index:10000;
 }
 
 /* FOOTER */
@@ -312,7 +313,7 @@ WORK SMARTER, NOT HARDER!
 
 <script>
 
-/* ===== MANUAL DATA ===== */
+/* ===== 120 TIPS ===== */
 
 let tips=[];
 
@@ -327,7 +328,7 @@ img:`Tip ${i}.png`
 
 }
 
-/* ===== AUTO CATEGORY ===== */
+/* ===== CATEGORY ===== */
 
 function getCategory(i){
 
@@ -341,7 +342,7 @@ return "Utility";
 
 }
 
-/* ===== FILTER BUTTONS ===== */
+/* ===== FILTERS ===== */
 
 function createFilters(){
 
@@ -470,7 +471,7 @@ e.stopPropagation();
 
 cur++;
 
-if(cur>tips.length)cur=1;
+if(cur>120)cur=1;
 
 updateImg();
 
@@ -484,7 +485,7 @@ e.stopPropagation();
 
 cur--;
 
-if(cur<1)cur=tips.length;
+if(cur<1)cur=120;
 
 updateImg();
 
