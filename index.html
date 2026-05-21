@@ -1,68 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Time Saving Tech Tips</title>
 
 <style>
 
-body{
-font-family:'Segoe UI';
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Segoe UI',sans-serif;
 background:#eef2f3;
 overflow-x:hidden;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 
 .header{
 background:#0f7c3a;
-color:#fff;
-padding:18px;
+color:white;
 text-align:center;
+padding:18px 12px;
+position:sticky;
+top:0;
+z-index:100;
 }
 
-.header h2{
-margin:0;
-font-size:36px;
+.header h1{
+font-size:34px;
+margin-bottom:6px;
 }
 
-.brand{
+.header p{
 font-size:14px;
-margin-top:5px;
+margin-top:4px;
 }
 
-/* SEARCH */
+/* ================= SEARCH ================= */
 
 .search-box{
 text-align:center;
-padding:15px 10px 5px;
+padding:18px 10px 8px;
 }
 
 .search-box input{
-padding:10px;
-width:320px;
-max-width:90%;
-border-radius:8px;
-border:1px solid #999;
-font-size:15px;
+width:340px;
+max-width:92%;
+padding:12px 14px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #aaa;
+outline:none;
 }
 
-/* FILTERS */
+/* ================= FILTERS ================= */
 
 .filters{
-text-align:center;
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:10px;
 padding:10px;
 }
 
 .filters button{
-margin:5px;
 padding:8px 16px;
 border:none;
-border-radius:20px;
-background:#d6d6d6;
+border-radius:25px;
+background:#d1d5db;
 cursor:pointer;
 font-size:15px;
+transition:.2s;
+}
+
+.filters button:hover{
+background:#9ca3af;
+color:white;
 }
 
 .filters button.active{
@@ -70,21 +89,21 @@ background:#16a34a;
 color:white;
 }
 
-/* GRID */
+/* ================= GRID ================= */
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
 gap:20px;
 padding:20px;
 }
 
-/* CARD */
+/* ================= CARD ================= */
 
 .card{
-background:#fff;
-padding:12px;
+background:white;
 border-radius:14px;
+padding:12px;
 box-shadow:0 4px 10px rgba(0,0,0,0.15);
 transition:.3s;
 }
@@ -101,16 +120,14 @@ cursor:pointer;
 display:block;
 }
 
-/* TITLE */
-
 .title{
-font-size:16px;
 margin-top:10px;
-font-weight:bold;
+font-size:15px;
+font-weight:700;
 text-align:center;
 }
 
-/* POPUP */
+/* ================= VIEWER ================= */
 
 .popup{
 display:none;
@@ -120,43 +137,70 @@ left:0;
 width:100%;
 height:100%;
 background:rgba(0,0,0,0.96);
-justify-content:center;
-align-items:center;
 z-index:9999;
-overflow:auto;
+overflow:hidden;
 }
 
-/* POPUP IMAGE */
+/* IMAGE CONTAINER */
 
 .popup-inner{
-position:relative;
-padding:40px;
-}
-
-#popupImg{
-width:90vw;
-max-width:1400px;
-height:auto;
-border-radius:12px;
-transition:transform .2s;
+width:100%;
+height:100%;
+overflow:auto;
+display:flex;
+justify-content:center;
+align-items:flex-start;
+padding:80px 20px 40px;
 cursor:grab;
 }
 
-/* FIXED BUTTONS */
+/* IMAGE */
+
+#popupImg{
+max-width:100%;
+height:auto;
+transition:transform .15s linear;
+transform-origin:center center;
+border-radius:12px;
+}
+
+/* ================= FIXED BUTTONS ================= */
+
+.nav,
+.zoom,
+.close{
+
+position:fixed;
+z-index:10000;
+border:none;
+cursor:pointer;
+color:white;
+box-shadow:0 4px 10px rgba(0,0,0,.35);
+
+}
+
+/* CLOSE */
+
+.close{
+top:18px;
+left:18px;
+width:52px;
+height:52px;
+border-radius:50%;
+background:#dc2626;
+font-size:24px;
+}
+
+/* NAV */
 
 .nav{
-position:fixed;
 top:50%;
 transform:translateY(-50%);
-background:#16a34a;
-color:#fff;
-border:none;
-padding:14px 18px;
-font-size:26px;
+width:58px;
+height:58px;
 border-radius:50%;
-cursor:pointer;
-box-shadow:0 4px 10px rgba(0,0,0,0.3);
-z-index:10000;
+background:#16a34a;
+font-size:28px;
 }
 
 .prev{
@@ -167,19 +211,15 @@ left:15px;
 right:15px;
 }
 
-/* FIXED ZOOM BUTTONS */
+/* ZOOM */
 
 .zoom{
-position:fixed;
-top:20px;
-background:#2563eb;
-color:#fff;
-border:none;
-padding:10px 14px;
-font-size:22px;
+top:18px;
+width:52px;
+height:52px;
 border-radius:50%;
-cursor:pointer;
-z-index:10000;
+background:#2563eb;
+font-size:24px;
 }
 
 .zin{
@@ -187,59 +227,78 @@ right:80px;
 }
 
 .zout{
-right:20px;
+right:18px;
 }
 
-/* CLOSE */
-
-.close{
-position:fixed;
-top:18px;
-left:20px;
-background:red;
-color:white;
-border:none;
-padding:10px 14px;
-font-size:22px;
-border-radius:50%;
-cursor:pointer;
-z-index:10000;
-}
-
-/* FOOTER */
+/* ================= FOOTER ================= */
 
 .footer{
 background:#0f7c3a;
 color:white;
 text-align:center;
-padding:18px;
+padding:16px;
 font-size:18px;
 margin-top:10px;
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media(max-width:768px){
 
-.header h2{
-font-size:26px;
+.header h1{
+font-size:24px;
 }
 
-.brand{
-font-size:13px;
+.header p{
+font-size:12px;
 }
 
 .grid{
 grid-template-columns:1fr;
+padding:12px;
+gap:16px;
 }
 
-#popupImg{
-width:98vw;
+.search-box input{
+width:95%;
 }
 
 .nav{
+width:48px;
+height:48px;
+font-size:22px;
+}
+
+.zoom{
+width:46px;
+height:46px;
 font-size:20px;
-padding:10px 14px;
+}
+
+.close{
+width:46px;
+height:46px;
+font-size:20px;
+}
+
+.prev{
+left:8px;
+}
+
+.next{
+right:8px;
+}
+
+.zin{
+right:65px;
+}
+
+.zout{
+right:10px;
+}
+
+.popup-inner{
+padding:70px 8px 30px;
 }
 
 }
@@ -249,39 +308,35 @@ padding:10px 14px;
 
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 
 <div class="header">
 
-<h2>TIME SAVING TECH TIPS 💡</h2>
+<h1>TIME SAVING TECH TIPS 💡</h1>
 
-<div class="brand">
-By Hasan Chobarawala | Mob: 9926652153
-</div>
+<p><b>By Hasan Chobarawala | Mob: 9926652153</b></p>
 
-<div class="brand">
-Branch In-Charge | ICAI Ujjain Branch
-</div>
+<p>Branch In-Charge | ICAI Ujjain Branch</p>
 
 </div>
 
-<!-- SEARCH -->
+<!-- ================= SEARCH ================= -->
 
 <div class="search-box">
 
-<input id="search" placeholder="Search tips...">
+<input type="text" id="search" placeholder="Search tips...">
 
 </div>
 
-<!-- FILTERS -->
+<!-- ================= FILTERS ================= -->
 
 <div class="filters" id="filters"></div>
 
-<!-- GRID -->
+<!-- ================= GRID ================= -->
 
 <div class="grid" id="grid"></div>
 
-<!-- POPUP -->
+<!-- ================= POPUP ================= -->
 
 <div class="popup" id="popup">
 
@@ -303,7 +358,7 @@ Branch In-Charge | ICAI Ujjain Branch
 
 </div>
 
-<!-- FOOTER -->
+<!-- ================= FOOTER ================= -->
 
 <div class="footer">
 
@@ -313,36 +368,42 @@ WORK SMARTER, NOT HARDER!
 
 <script>
 
-/* ===== 120 TIPS ===== */
+/* ================= DATA ================= */
 
-let tips=[];
+const tips=[];
 
 for(let i=1;i<=120;i++){
 
 tips.push({
+
 no:i,
-title:"Time Saving Tech Tip",
+
+title:`Time Saving Tech Tip ${i}`,
+
 cat:getCategory(i),
+
 img:`Tip ${i}.png`
+
 });
 
 }
 
-/* ===== CATEGORY ===== */
+/* ================= CATEGORY ================= */
 
 function getCategory(i){
 
-if(i<=20) return "AI";
-if(i<=40) return "Computer";
-if(i<=60) return "Excel";
-if(i<=80) return "Google";
-if(i<=100) return "Google Sheets";
+if(i<=15) return "AI";
+if(i<=30) return "Computer";
+if(i<=50) return "Excel";
+if(i<=70) return "Google";
+if(i<=90) return "Google Sheets";
+if(i<=105) return "Google Docs";
 
 return "Utility";
 
 }
 
-/* ===== FILTERS ===== */
+/* ================= FILTERS ================= */
 
 function createFilters(){
 
@@ -350,19 +411,17 @@ const cats=["All",...new Set(tips.map(t=>t.cat))];
 
 const fdiv=document.getElementById("filters");
 
-fdiv.innerHTML="";
-
 cats.forEach(c=>{
 
-let b=document.createElement("button");
+const btn=document.createElement("button");
 
-b.innerText=c;
+btn.innerText=c;
 
-b.onclick=(e)=>filter(c,e);
+if(c==="All") btn.classList.add("active");
 
-if(c==="All")b.classList.add("active");
+btn.onclick=(e)=>filterTips(c,e);
 
-fdiv.appendChild(b);
+fdiv.appendChild(btn);
 
 });
 
@@ -370,26 +429,34 @@ fdiv.appendChild(b);
 
 let currentCat="All";
 
-let grid=document.getElementById("grid");
+const grid=document.getElementById("grid");
 
-/* ===== LOAD ===== */
+/* ================= LOAD ================= */
 
-function load(){
+function loadTips(){
 
 grid.innerHTML="";
 
-let s=document.getElementById("search").value.toLowerCase();
+const s=document.getElementById("search")
+.value.toLowerCase();
 
 tips.forEach(t=>{
 
-if((currentCat==="All"||t.cat===currentCat)&&
-(("tip "+t.no).includes(s)||t.title.toLowerCase().includes(s))){
+if(
+(currentCat==="All"||t.cat===currentCat)
+&&
+(
+t.title.toLowerCase().includes(s)
+||
+(`tip ${t.no}`).includes(s)
+)
+){
 
-let d=document.createElement("div");
+const card=document.createElement("div");
 
-d.className="card";
+card.className="card";
 
-d.innerHTML=`
+card.innerHTML=`
 
 <img src="${t.img}" onclick="openPopup(${t.no})">
 
@@ -401,7 +468,7 @@ TIP ${t.no} - ${t.cat}
 
 `;
 
-grid.appendChild(d);
+grid.appendChild(card);
 
 }
 
@@ -409,110 +476,136 @@ grid.appendChild(d);
 
 }
 
-/* ===== FILTER ===== */
+/* ================= FILTER ================= */
 
-function filter(c,e){
+function filterTips(cat,e){
 
-currentCat=c;
+currentCat=cat;
 
 document.querySelectorAll(".filters button")
 .forEach(b=>b.classList.remove("active"));
 
 e.target.classList.add("active");
 
-load();
+loadTips();
 
 }
 
-/* ===== SEARCH ===== */
+/* ================= SEARCH ================= */
 
 document.getElementById("search")
-.addEventListener("keyup",load);
+.addEventListener("keyup",loadTips);
 
-/* ===== INIT ===== */
+/* ================= INIT ================= */
 
 createFilters();
 
-load();
+loadTips();
 
-/* ===== POPUP ===== */
+/* ================= POPUP ================= */
 
-let cur=1,zoom=1,x=0,y=0,drag=false,sx,sy;
+let current=1;
+
+let zoom=1;
+
+let panX=0;
+
+let panY=0;
+
+let dragging=false;
+
+let startX,startY;
+
+const popup=document.getElementById("popup");
+
+const img=document.getElementById("popupImg");
+
+const inner=document.getElementById("inner");
+
+/* OPEN */
 
 function openPopup(n){
 
-cur=n;
+current=n;
 
-document.getElementById("popup").style.display="flex";
+popup.style.display="block";
 
-updateImg();
+updateImage();
 
-reset();
+resetZoom();
 
 }
+
+/* CLOSE */
 
 function closePopup(){
 
-document.getElementById("popup").style.display="none";
+popup.style.display="none";
 
 }
 
-function updateImg(){
+/* UPDATE IMAGE */
 
-document.getElementById("popupImg").src=`Tip ${cur}.png`;
+function updateImage(){
+
+img.src=`Tip ${current}.png`;
 
 }
 
-/* ===== NEXT PREV ===== */
+/* NEXT */
 
 function nextTip(e){
 
 e.stopPropagation();
 
-cur++;
+current++;
 
-if(cur>120)cur=1;
+if(current>120) current=1;
 
-updateImg();
+updateImage();
 
-reset();
+resetZoom();
 
 }
+
+/* PREV */
 
 function prevTip(e){
 
 e.stopPropagation();
 
-cur--;
+current--;
 
-if(cur<1)cur=120;
+if(current<1) current=120;
 
-updateImg();
+updateImage();
 
-reset();
+resetZoom();
 
 }
 
-/* ===== ZOOM ===== */
+/* ================= ZOOM ================= */
 
-function reset(){
+function resetZoom(){
 
 zoom=1;
 
-x=0;
+panX=0;
 
-y=0;
+panY=0;
 
-update();
+applyTransform();
+
+}
+
+function applyTransform(){
+
+img.style.transform=
+`translate(${panX}px,${panY}px) scale(${zoom})`;
 
 }
 
-function update(){
-
-popupImg.style.transform=
-`translate(${x}px,${y}px) scale(${zoom})`;
-
-}
+/* BUTTON ZOOM */
 
 function zoomIn(e){
 
@@ -520,7 +613,7 @@ e.stopPropagation();
 
 zoom+=0.2;
 
-update();
+applyTransform();
 
 }
 
@@ -530,63 +623,87 @@ e.stopPropagation();
 
 zoom-=0.2;
 
-if(zoom<1)zoom=1;
+if(zoom<1) zoom=1;
 
-update();
+applyTransform();
 
 }
 
-/* ===== MOUSE WHEEL ===== */
+/* MOUSE WHEEL */
 
-popupImg.onwheel=e=>{
+img.onwheel=(e)=>{
 
 e.preventDefault();
 
-zoom+=e.deltaY<0?0.1:-0.1;
+zoom += e.deltaY<0 ? 0.1 : -0.1;
 
-if(zoom<1)zoom=1;
+if(zoom<1) zoom=1;
 
-update();
-
-};
-
-/* ===== DRAG ===== */
-
-inner.onmousedown=e=>{
-
-drag=true;
-
-sx=e.clientX-x;
-
-sy=e.clientY-y;
+applyTransform();
 
 };
 
-document.onmousemove=e=>{
+/* ================= DRAG ================= */
 
-if(drag){
+inner.onmousedown=(e)=>{
 
-x=e.clientX-sx;
+dragging=true;
 
-y=e.clientY-sy;
+startX=e.clientX-panX;
 
-update();
+startY=e.clientY-panY;
+
+};
+
+document.onmousemove=(e)=>{
+
+if(dragging){
+
+panX=e.clientX-startX;
+
+panY=e.clientY-startY;
+
+applyTransform();
 
 }
 
 };
 
-document.onmouseup=()=>drag=false;
+document.onmouseup=()=>dragging=false;
 
-/* ===== KEYBOARD ===== */
+/* ================= KEYBOARD ================= */
 
-document.addEventListener("keydown",function(e){
+document.addEventListener("keydown",(e)=>{
 
-if(e.key==="ArrowRight") nextTip(e);
+if(e.key==="ArrowRight"){
 
-if(e.key==="ArrowLeft") prevTip(e);
+current++;
 
-if(e.key==="Escape") closePopup();
+if(current>120) current=1;
+
+updateImage();
+
+resetZoom();
+
+}
+
+if(e.key==="ArrowLeft"){
+
+current--;
+
+if(current<1) current=120;
+
+updateImage();
+
+resetZoom();
+
+}
+
+if(e.key==="Escape"){
+
+closePopup();
+
+}
 
 });
 
